@@ -1,4 +1,5 @@
 import 'package:aula_app/funcoes/FrmCadastroCliente.dart';
+import 'package:aula_app/funcoes/FrmCadastroClienteEdit.dart';
 import 'package:aula_app/funcoes/FrmPrincipal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,7 @@ class AulaApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         '/': (BuildContext context) => FrmPrincipal(),
         '/cadastrarCliente': (BuildContext context) => FrmCadastroCliente(),
+        '/cadastrarClienteEdit': (BuildContext context) => FrmCadastroClienteEdit(),
       },
     );
   }
