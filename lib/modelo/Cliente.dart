@@ -8,4 +8,9 @@ class Cliente {
         this.cdCliente = json['cdCliente'];
         this.nmCliente = json['nmCliente'];
     }
+
+    Cliente.fromMap(Map<String, dynamic> map) {
+        this.cdCliente = map['cd_cliente'];
+        this.nmCliente = map['nm_cliente'];
+    }
 }

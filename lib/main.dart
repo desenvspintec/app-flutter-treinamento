@@ -1,6 +1,7 @@
 import 'package:aula_app/funcoes/FrmCadastroCliente.dart';
 import 'package:aula_app/funcoes/FrmCadastroClienteEdit.dart';
 import 'package:aula_app/funcoes/FrmPrincipal.dart';
+import 'package:aula_app/util/AulaAppColorUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -15,7 +16,7 @@ class AulaApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Aula App',
       theme: new ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: AulaAppColorUtil.AulaAmarelo,
         primaryIconTheme: new IconThemeData(color: Colors.white),
         primaryColorBrightness: Brightness.dark,),
       localizationsDelegates: [

@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:aula_app/modelo/Cliente.dart';
+import 'package:aula_app/util/DatabaseHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:aula_app/util/DatabaseHelper.dart';
 
 class FrmCadastroCliente extends StatefulWidget {
   final String url;
@@ -19,6 +21,7 @@ class _FrmCadastroClienteState extends State<FrmCadastroCliente> {
 
   List<Cliente> _listaClientes = new List();
   List<Cliente> _listaClientesFiltrada = new List();
+  DatabaseHelper _databaseHelper = new DatabaseHelper();
 
   @override
   void initState() {
@@ -30,22 +33,33 @@ class _FrmCadastroClienteState extends State<FrmCadastroCliente> {
   }
 
   Future<void> _carregarClientes() async {
-    String endereco = "http://200.237.160.253:8080/Aula/metodos/cadastro/cliente/obter";
-    var response = await http.get(endereco);
+    // String endereco = "http://200.237.160.253:8080/Aula/metodos/cadastro/cliente/obter";
+    // var response = await http.get(endereco);
+    //
+    // if (response.statusCode == 200) {
+    //   var resposta = json.decode(response.body);
+    //
+    //   _listaClientes.clear();
+    //   _listaClientesFiltrada.clear();
+    //
+    //   resposta['dados'].forEach((dado) {
+    //     setState(() {
+    //       _listaClientes.add(Cliente.fromJson(json.decode(dado)['Cliente']));
+    //       _listaClientesFiltrada.add(Cliente.fromJson(json.decode(dado)['Cliente']));
+    //     });
+    //   });
+    // }
 
-    if (response.statusCode == 200) {
-      var resposta = json.decode(response.body);
+    List<Map<String, dynamic>> dados = await _databaseHelper.getSQLSelect("Select * from cliente order by nm_cliente");
+    _listaClientes.clear();
+    _listaClientesFiltrada.clear();
 
-      _listaClientes.clear();
-      _listaClientesFiltrada.clear();
-
-      resposta['dados'].forEach((dado) {
-        setState(() {
-          _listaClientes.add(Cliente.fromJson(json.decode(dado)['Cliente']));
-          _listaClientesFiltrada.add(Cliente.fromJson(json.decode(dado)['Cliente']));
-        });
+    dados.forEach((dado) {
+      setState(() {
+        _listaClientes.add(Cliente.fromMap(dado));
+        _listaClientesFiltrada.add(Cliente.fromMap(dado));
       });
-    }
+    });
   }
 
   void _filtrarClientes(String cliente) {
