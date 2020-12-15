@@ -18,7 +18,7 @@ class DatabaseHelper {
   }
 
   Future<Database> inicializarDatabase() async {
-    Directory diretorio = await getApplicationDocumentsDirectory();
+    Directory diretorio = await getApplicationSupportDirectory();
     String caminho = diretorio.path + "banco.db";
 
     return await openDatabase(caminho, version: 1, onCreate: _createDatabase);

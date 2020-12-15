@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:aula_app/modelo/Cliente.dart';
 import 'package:aula_app/util/DatabaseHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +8,9 @@ import 'package:flutter/services.dart';
 
 class FrmCadastroClienteEdit extends StatefulWidget {
   final String url;
+  final Cliente cliente;
 
-  FrmCadastroClienteEdit({this.url});
+  FrmCadastroClienteEdit({this.url, this.cliente});
 
   @override
   _FrmCadastroClienteEditState createState() => new _FrmCadastroClienteEditState();
@@ -24,6 +26,17 @@ class _FrmCadastroClienteEditState extends State<FrmCadastroClienteEdit> {
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration.zero, () {
+      _carregarCliente();
+    });
+  }
+
+  void _carregarCliente() {
+    if (widget.cliente != null) {
+      setState(() {
+        _edNome.text = widget.cliente.nmCliente;
+      });
+    }
   }
 
   Widget _visualizacao() {
@@ -97,7 +110,12 @@ class _FrmCadastroClienteEditState extends State<FrmCadastroClienteEdit> {
 
       try {
         String nome = _edNome.text;
-        await _databaseHelper.insertSQL("insert into cliente(nm_cliente) values ('$nome')");
+        if  (widget.cliente == null) {
+          await _databaseHelper.insertSQL("insert into cliente(nm_cliente) values ('$nome')");
+        } else {
+          int cdCliente = widget.cliente.cdCliente;
+          await _databaseHelper.updateSQL("Update cliente set nm_cliente = '$nome' where cd_cliente = $cdCliente");
+        }
         Navigator.pop(context);
         Navigator.pop(context);
       } catch (e) {

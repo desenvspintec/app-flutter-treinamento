@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:aula_app/funcoes/FrmCadastroClienteEdit.dart';
 import 'package:aula_app/modelo/Cliente.dart';
 import 'package:aula_app/util/DatabaseHelper.dart';
 import 'package:flutter/cupertino.dart';
@@ -74,13 +75,25 @@ class _FrmCadastroClienteState extends State<FrmCadastroCliente> {
     }
   }
 
+  Future<void> _editar(Cliente cliente) async {
+    await Navigator.push(context, MaterialPageRoute(
+      builder: (context) => FrmCadastroClienteEdit(
+        cliente: cliente,
+      )
+    ));
+
+    await _carregarClientes();
+  }
+
   Future<void> _deletar(int cdCliente) async {
-      String endereco = "http://200.237.160.253:8080/Aula/metodos/cadastro/cliente/excluir/$cdCliente";
+      // String endereco = "http://200.237.160.253:8080/Aula/metodos/cadastro/cliente/excluir/$cdCliente";
+      //
+      // var response = await http.delete(endereco);
+      //
+      // if  (response.statusCode == 200) {
+      // }
 
-      var response = await http.delete(endereco);
-
-      if  (response.statusCode == 200) {
-      }
+    await _databaseHelper.deleteSQL("delete from cliente where cd_cliente = $cdCliente");
   }
 
   Widget _visualizacao() {
@@ -126,6 +139,7 @@ class _FrmCadastroClienteState extends State<FrmCadastroCliente> {
                   title: Text(cliente.nmCliente),
                   subtitle: Text('Código: ' + cliente.cdCliente.toString()),
                   leading: Icon(Icons.person),
+                  onTap: () async => _editar(cliente),
                 ),
               );
             }).toList(),
